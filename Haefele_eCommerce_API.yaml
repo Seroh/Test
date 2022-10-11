@@ -1,0 +1,1355 @@
+openapi: 3.0.0
+x-stoplight:
+  id: l7nr484q1gvqc
+info:
+  title: Häfele eCommerce API
+  version: 1.0.0
+servers:
+  - url: 'https://api-shop-test.hafele.com/api'
+    description: test environment
+  - url: 'https://api-shop.hafele.com/api'
+    description: productive environment
+components:
+  securitySchemes: {}
+tags:
+  - name: productinfo
+  - name: extendedproductinfo
+  - name: user
+  - name: productlist
+  - name: orderlist
+  - name: orderdetails
+  - name: shipmentdetails
+  - name: toparticles
+  - name: customerdetails
+  - name: quotationdetails
+  - name: createorder
+  - name: createquotation
+  - name: changequotation
+  - name: getpdfdocument
+paths:
+  /user/login:
+    get:
+      tags:
+        - user
+      summary: /user/login
+      security: []
+      parameters:
+        - name: x-api-key
+          in: header
+          schema:
+            type: string
+          example: CzRR4Dix6j5BASx3ArOEO4a0Y4GRAlzN1Tr6qS4T
+          description: API Key
+          required: true
+        - name: username
+          in: query
+          schema:
+            type: string
+          example: '1047378'
+          description: Customer Number (webshop)
+          required: true
+        - name: licenseKey
+          in: query
+          schema:
+            type: string
+          example: '000'
+          description: Provided license key
+          required: true
+        - name: password
+          in: query
+          schema:
+            type: string
+          example: password
+          description: Customer password (same as webshop)
+          required: true
+      responses:
+        '200':
+          description: OK
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+          headers: {}
+          content:
+            text/plain:
+              schema:
+                type: string
+              example: ''
+        '503':
+          description: Service Unavailable
+          headers:
+            Content-Type:
+              schema:
+                type: string
+                example: text/plain
+          content:
+            text/plain:
+              schema:
+                type: string
+              example: ''
+      x-internal: false
+      description: 'This Endpoint provides user tokens, which has to be used for subsequent endpoint calls.'
+  '/productinfo/{version}':
+    get:
+      tags:
+        - productinfo
+      summary: 'https://api-shop-test.hafele.com/api/productinfo/:version?articleEanCode={{articleEanCode}}'
+      parameters:
+        - name: Accept
+          in: header
+          schema:
+            type: string
+          example: application/json
+        - name: getDefinition
+          in: header
+          schema:
+            type: string
+          example: '{{getDefinition}}'
+        - name: Authorization
+          in: header
+          schema:
+            type: string
+          example: '{{authorizationKey}}'
+        - name: x-api-key
+          in: header
+          schema:
+            type: string
+          example: '{{aws-api-key}}'
+        - name: articleEanCode
+          in: query
+          schema:
+            type: integer
+          example: 4000934985882
+        - name: version
+          in: path
+          schema:
+            type: integer
+          required: true
+          example: 3
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  '/extendproductinfo/{version}':
+    get:
+      tags:
+        - extendedproductinfo
+      summary: 'https://api-shop-test.hafele.com/api/extendproductinfo/:version?articleNumber={{articleNumber}}'
+      security: []
+      parameters:
+        - name: Authorization
+          in: header
+          schema:
+            type: string
+          description: token used for user authentication
+          example: '{{authorizationKey}}'
+        - name: getDefinition
+          in: header
+          schema:
+            type: string
+          description: 'this flag determines the exact service-definition in the sap-backend<br>(valid values are ''1'' for import-parameters, ''2'' for export-parameters and ''3'' for both)'
+          example: <string>
+        - name: x-api-key
+          in: header
+          schema:
+            type: string
+          example: '{{aws-api-key}}'
+        - name: articleNumber
+          in: query
+          schema:
+            type: integer
+          example: 42986020
+        - name: vkOrg
+          in: query
+          schema:
+            type: string
+          example: DE01
+        - name: language
+          in: query
+          schema:
+            type: string
+          example: EN
+        - name: version
+          in: path
+          schema:
+            type: integer
+          required: true
+          example: 2
+      responses:
+        '200':
+          description: OK
+          headers:
+            Content-Type:
+              schema:
+                type: string
+                example: text/plain
+          content:
+            text/plain:
+              schema:
+                type: string
+              example: ''
+        '401':
+          description: Unauthorized
+          headers:
+            Content-Type:
+              schema:
+                type: string
+                example: text/plain
+          content:
+            text/plain:
+              schema:
+                type: string
+              example: ''
+        '417':
+          description: Expectation Failed
+          headers:
+            Content-Type:
+              schema:
+                type: string
+                example: text/plain
+          content:
+            text/plain:
+              schema:
+                type: string
+              example: ''
+        '503':
+          description: Service Unavailable
+          headers:
+            Content-Type:
+              schema:
+                type: string
+                example: text/plain
+          content:
+            text/plain:
+              schema:
+                type: string
+              example: ''
+  '/productlist/{version}':
+    get:
+      tags:
+        - productlist
+      summary: 'https://api-shop-test.hafele.com/api/productlist/2/updateType={{updateType}}'
+      security: []
+      parameters:
+        - name: Authorization
+          in: header
+          schema:
+            type: string
+          description: token used for user authentication
+          example: '{{authorizationKey}}'
+        - name: getDefinition
+          in: header
+          schema:
+            type: string
+          description: 'this flag determines the exact service-definition in the sap-backend<br>(valid values are ''1'' for import-parameters, ''2'' for export-parameters and ''3'' for both)'
+          example: <string>
+        - name: x-api-key
+          in: header
+          schema:
+            type: string
+          example: '{{aws-api-key}}'
+        - name: Accept
+          in: header
+          schema:
+            type: string
+          example: application/json
+        - name: updateType
+          in: query
+          schema:
+            type: string
+          example: ALL
+        - name: version
+          in: path
+          schema:
+            type: integer
+          required: true
+          example: 2
+      responses:
+        '200':
+          description: OK
+          headers:
+            Content-Type:
+              schema:
+                type: string
+                example: text/plain
+          content:
+            text/plain:
+              schema:
+                type: string
+              example: ''
+        '401':
+          description: Unauthorized
+          headers:
+            Content-Type:
+              schema:
+                type: string
+                example: text/plain
+          content:
+            text/plain:
+              schema:
+                type: string
+              example: ''
+        '417':
+          description: Expectation Failed
+          headers:
+            Content-Type:
+              schema:
+                type: string
+                example: text/plain
+          content:
+            text/plain:
+              schema:
+                type: string
+              example: ''
+        '503':
+          description: Service Unavailable
+          headers:
+            Content-Type:
+              schema:
+                type: string
+                example: text/plain
+          content:
+            text/plain:
+              schema:
+                type: string
+              example: ''
+  '/api/productlist/{version}':
+    get:
+      tags:
+        - productlist
+      summary: 'https://api-shop-test.hafele.com/api/productlist/2?updateType={{updateType}}&updatePeriod={{updatePeriod}}'
+      parameters:
+        - name: Accept
+          in: header
+          schema:
+            type: string
+          example: application/json
+        - name: getDefinition
+          in: header
+          schema:
+            type: string
+          example: '{{getDefinition}}'
+        - name: Authorization
+          in: header
+          schema:
+            type: string
+          example: '{{authorizationKey}}'
+        - name: x-api-key
+          in: header
+          schema:
+            type: string
+          example: '{{aws-api-key}}'
+        - name: updateType
+          in: query
+          schema:
+            type: string
+          example: UPDATE
+        - name: updatePeriod
+          in: query
+          schema:
+            type: string
+          example: 1M
+        - name: version
+          in: path
+          schema:
+            type: integer
+          required: true
+          example: 2
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  '/orderlist/{version}':
+    get:
+      tags:
+        - orderlist
+      summary: 'https://api-shop-test.hafele.com/api/orderlist/2'
+      security: []
+      parameters:
+        - name: Authorization
+          in: header
+          schema:
+            type: string
+          description: token used for user authentication
+          example: '{{authorizationKey}}'
+        - name: getDefinition
+          in: header
+          schema:
+            type: string
+          description: 'this flag determines the exact service-definition in the sap-backend<br>(valid values are ''1'' for import-parameters, ''2'' for export-parameters and ''3'' for both)'
+          example: <string>
+        - name: x-api-key
+          in: header
+          schema:
+            type: string
+          example: '{{aws-api-key}}'
+        - name: version
+          in: path
+          schema:
+            type: integer
+          required: true
+          example: 2
+      responses:
+        '200':
+          description: OK
+          headers:
+            Content-Type:
+              schema:
+                type: string
+                example: text/plain
+          content:
+            text/plain:
+              schema:
+                type: string
+              example: ''
+        '401':
+          description: Unauthorized
+          headers:
+            Content-Type:
+              schema:
+                type: string
+                example: text/plain
+          content:
+            text/plain:
+              schema:
+                type: string
+              example: ''
+        '417':
+          description: Expectation Failed
+          headers:
+            Content-Type:
+              schema:
+                type: string
+                example: text/plain
+          content:
+            text/plain:
+              schema:
+                type: string
+              example: ''
+        '503':
+          description: Service Unavailable
+          headers:
+            Content-Type:
+              schema:
+                type: string
+                example: text/plain
+          content:
+            text/plain:
+              schema:
+                type: string
+              example: ''
+  '/orderdetails/{version}':
+    get:
+      tags:
+        - orderdetails
+      summary: 'https://api-shop-test.hafele.com/api/orderdetails/:version?orderNumber={{orderNumber}}'
+      security: []
+      parameters:
+        - name: Authorization
+          in: header
+          schema:
+            type: string
+          description: token used for user authentication
+          example: '{{authorizationKey}}'
+        - name: getDefinition
+          in: header
+          schema:
+            type: string
+          description: 'this flag determines the exact service-definition in the sap-backend<br>(valid values are ''1'' for import-parameters, ''2'' for export-parameters and ''3'' for both)'
+          example: <string>
+        - name: x-api-key
+          in: header
+          schema:
+            type: string
+          example: '{{aws-api-key}}'
+        - name: orderNumber
+          in: query
+          schema:
+            type: integer
+          example: 79763094
+        - name: customerNumber
+          in: query
+          schema:
+            type: integer
+          example: 8370378
+        - name: vkOrg
+          in: query
+          schema:
+            type: string
+          example: DE01
+        - name: version
+          in: path
+          schema:
+            type: integer
+          required: true
+          example: 2
+      responses:
+        '200':
+          description: OK
+          headers:
+            Content-Type:
+              schema:
+                type: string
+                example: text/plain
+          content:
+            text/plain:
+              schema:
+                type: string
+              example: ''
+        '401':
+          description: Unauthorized
+          headers:
+            Content-Type:
+              schema:
+                type: string
+                example: text/plain
+          content:
+            text/plain:
+              schema:
+                type: string
+              example: ''
+        '503':
+          description: Service Unavailable
+          headers:
+            Content-Type:
+              schema:
+                type: string
+                example: text/plain
+          content:
+            text/plain:
+              schema:
+                type: string
+              example: ''
+  '/shipmentdetails/{version}':
+    get:
+      tags:
+        - shipmentdetails
+      summary: 'https://api-shop-test.hafele.com/api/shipmentdetails/2?shipmentNumber={{shipmentNumber}}'
+      security: []
+      parameters:
+        - name: Authorization
+          in: header
+          schema:
+            type: string
+          description: token used for user authentication
+          example: '{{authorizationKey}}'
+        - name: getDefinition
+          in: header
+          schema:
+            type: string
+          description: 'this flag determines the exact service-definition in the sap-backend<br>(valid values are ''1'' for import-parameters, ''2'' for export-parameters and ''3'' for both)'
+          example: <string>
+        - name: x-api-key
+          in: header
+          schema:
+            type: string
+          example: '{{aws-api-key}}'
+        - name: shipmentNumber
+          in: query
+          schema:
+            type: integer
+          example: 35859840
+        - name: version
+          in: path
+          schema:
+            type: integer
+          required: true
+          example: 2
+      responses:
+        '200':
+          description: OK
+          headers:
+            Content-Type:
+              schema:
+                type: string
+                example: text/plain
+          content:
+            text/plain:
+              schema:
+                type: string
+              example: ''
+        '401':
+          description: Unauthorized
+          headers:
+            Content-Type:
+              schema:
+                type: string
+                example: text/plain
+          content:
+            text/plain:
+              schema:
+                type: string
+              example: ''
+        '417':
+          description: Expectation Failed
+          headers:
+            Content-Type:
+              schema:
+                type: string
+                example: text/plain
+          content:
+            text/plain:
+              schema:
+                type: string
+              example: ''
+        '503':
+          description: Service Unavailable
+          headers:
+            Content-Type:
+              schema:
+                type: string
+                example: text/plain
+          content:
+            text/plain:
+              schema:
+                type: string
+              example: ''
+  '/toparticles/{version}':
+    get:
+      tags:
+        - toparticles
+      summary: 'https://api-shop-test.hafele.com/api/toparticles/2'
+      security: []
+      parameters:
+        - name: Authorization
+          in: header
+          schema:
+            type: string
+          description: token used for user authentication
+          example: '{{authorizationKey}}'
+        - name: getDefinition
+          in: header
+          schema:
+            type: string
+          description: 'this flag determines the exact service-definition in the sap-backend<br>(valid values are ''1'' for import-parameters, ''2'' for export-parameters and ''3'' for both)'
+          example: <string>
+        - name: x-api-key
+          in: header
+          schema:
+            type: string
+          example: '{{aws-api-key}}'
+        - name: version
+          in: path
+          schema:
+            type: integer
+          required: true
+          example: 2
+      responses:
+        '200':
+          description: OK
+          headers:
+            Content-Type:
+              schema:
+                type: string
+                example: text/plain
+          content:
+            text/plain:
+              schema:
+                type: string
+              example: ''
+        '401':
+          description: Unauthorized
+          headers:
+            Content-Type:
+              schema:
+                type: string
+                example: text/plain
+          content:
+            text/plain:
+              schema:
+                type: string
+              example: ''
+        '417':
+          description: Expectation Failed
+          headers:
+            Content-Type:
+              schema:
+                type: string
+                example: text/plain
+          content:
+            text/plain:
+              schema:
+                type: string
+              example: ''
+        '503':
+          description: Service Unavailable
+          headers:
+            Content-Type:
+              schema:
+                type: string
+                example: text/plain
+          content:
+            text/plain:
+              schema:
+                type: string
+              example: ''
+  '/customerdetails/{version}':
+    get:
+      tags:
+        - customerdetails
+      summary: 'https://api-shop-test.hafele.com/api/customerdetails/:version?customerNumber={{customerNumber}}&vkOrg={{vkOrg}}'
+      security: []
+      parameters:
+        - name: Authorization
+          in: header
+          schema:
+            type: string
+          description: token used for user authentication
+          example: '{{authorizationKey}}'
+        - name: getDefinition
+          in: header
+          schema:
+            type: string
+          description: 'this flag determines the exact service-definition in the sap-backend<br>(valid values are ''1'' for import-parameters, ''2'' for export-parameters and ''3'' for both)'
+          example: <string>
+        - name: x-api-key
+          in: header
+          schema:
+            type: string
+          example: '{{aws-api-key}}'
+        - name: customerNumber
+          in: query
+          schema:
+            type: integer
+          description: import parameters of the target-function formatted as Json
+          example: 8370378
+        - name: vkOrg
+          in: query
+          schema:
+            type: string
+          example: DE01
+        - name: version
+          in: path
+          schema:
+            type: integer
+          required: true
+          example: 1
+      responses:
+        '200':
+          description: OK
+          headers:
+            Content-Type:
+              schema:
+                type: string
+                example: text/plain
+          content:
+            text/plain:
+              schema:
+                type: string
+              example: ''
+        '401':
+          description: Unauthorized
+          headers:
+            Content-Type:
+              schema:
+                type: string
+                example: text/plain
+          content:
+            text/plain:
+              schema:
+                type: string
+              example: ''
+        '417':
+          description: Expectation Failed
+          headers:
+            Content-Type:
+              schema:
+                type: string
+                example: text/plain
+          content:
+            text/plain:
+              schema:
+                type: string
+              example: ''
+        '503':
+          description: Service Unavailable
+          headers:
+            Content-Type:
+              schema:
+                type: string
+                example: text/plain
+          content:
+            text/plain:
+              schema:
+                type: string
+              example: ''
+  '/quotationdetails/{version}':
+    get:
+      tags:
+        - quotationdetails
+      summary: 'https://api-shop-test.hafele.com/api/quotationdetails/3?quotationNumber={{quotationNumber}}'
+      security: []
+      parameters:
+        - name: Authorization
+          in: header
+          schema:
+            type: string
+          description: token used for user authentication
+          example: '{{authorizationKey}}'
+        - name: getDefinition
+          in: header
+          schema:
+            type: string
+          description: 'this flag determines the exact service-definition in the sap-backend<br>(valid values are ''1'' for import-parameters, ''2'' for export-parameters and ''3'' for both)'
+          example: <string>
+        - name: x-api-key
+          in: header
+          schema:
+            type: string
+          example: '{{aws-api-key}}'
+        - name: quotationNumber
+          in: query
+          schema:
+            type: integer
+          example: 63999460
+        - name: version
+          in: path
+          schema:
+            type: integer
+          required: true
+          example: 1
+      responses:
+        '200':
+          description: OK
+          headers:
+            Content-Type:
+              schema:
+                type: string
+                example: text/plain
+          content:
+            text/plain:
+              schema:
+                type: string
+              example: ''
+        '401':
+          description: Unauthorized
+          headers:
+            Content-Type:
+              schema:
+                type: string
+                example: text/plain
+          content:
+            text/plain:
+              schema:
+                type: string
+              example: ''
+        '417':
+          description: Expectation Failed
+          headers:
+            Content-Type:
+              schema:
+                type: string
+                example: text/plain
+          content:
+            text/plain:
+              schema:
+                type: string
+              example: ''
+        '503':
+          description: Service Unavailable
+          headers:
+            Content-Type:
+              schema:
+                type: string
+                example: text/plain
+          content:
+            text/plain:
+              schema:
+                type: string
+              example: ''
+  '/createorder/{version}':
+    post:
+      tags:
+        - createorder
+      summary: 'https://api-shop-test.hafele.com/api/createorder/:version'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                Header:
+                  CustomerNumber: '8370378'
+                  RefDoc: ''
+                  DeliveryAddrCity: ''
+                  DeliveryAddrCustomerNumber: ''
+                  DeliveryAddrHouseNo: ''
+                  DeliveryAddrHouseNoAdd: ''
+                  DeliveryAddrName1: ''
+                  DeliveryAddrName2: ''
+                  DeliveryAddrState: ''
+                  DeliveryAddrStreet: ''
+                  DeliveryAddrStreet2: ''
+                  DeliveryAddrTyp: D
+                  DeliveryAddrZip: ''
+                  DeliveryAddrCountry: ''
+                  DeliveryWeek: ''
+                  DeliveryTyp: X
+                  LfdatH: ''
+                  Lifsp: ''
+                  CustomerQuotationNumber: ID81869
+                  QuotationDate: '2020-07-29'
+                  QuotationNumber: ''
+                  OrderCustomerOrderNumber: ''
+                  OrderDate: '2020-07-29'
+                  PackComission: ''
+                  PartnerNumber: ''
+                  PickUpByCustomer: ''
+                  SalesOrganization: DE01
+                  Spart: '01'
+                  Vkbur: ''
+                  Vtweg: '01'
+                Items:
+                  - ArticleNumber: '50270252'
+                    Commission: ''
+                    DeliverPosition: ''
+                    DeliveryDate: ''
+                    DeliveryYearWeek: ''
+                    QuantityUnitIso: ''
+                    RequestedQuantity: '1'
+                    ShopPosNumber: '1'
+                    ErpPosNumber: ''
+                    RefDoc: ''
+                    RefDocItem: ''
+                PriceInformation:
+                  - PricingCondition: ZPM
+                    Stunr: 500
+                    QuantityPrice: 4000
+                    CurrencyMnemonic: EUR
+                    ShopPosNumber: '1'
+                    PriceQuantityUnit: 100
+                    ErpPosNumber: ''
+                Language: DE
+                Simulate: X
+                Source: API
+                TextMessages: null
+      security: []
+      parameters:
+        - name: Authorization
+          in: header
+          schema:
+            type: string
+          description: token used for user authentication
+          example: '{{authorizationKey}}'
+        - name: getDefinition
+          in: header
+          schema:
+            type: string
+          description: 'this flag determines the exact service-definition in the sap-backend<br>(valid values are ''1'' for import-parameters, ''2'' for export-parameters and ''3'' for both)'
+          example: <string>
+        - name: Content-Type
+          in: header
+          schema:
+            type: string
+          example: application/json
+        - name: x-api-key
+          in: header
+          schema:
+            type: string
+          example: '{{aws-api-key}}'
+        - name: version
+          in: path
+          schema:
+            type: integer
+          required: true
+          example: 1
+      responses:
+        '200':
+          description: OK
+          headers:
+            Content-Type:
+              schema:
+                type: string
+                example: text/plain
+          content:
+            text/plain:
+              schema:
+                type: string
+              example: ''
+        '401':
+          description: Unauthorized
+          headers:
+            Content-Type:
+              schema:
+                type: string
+                example: text/plain
+          content:
+            text/plain:
+              schema:
+                type: string
+              example: ''
+        '417':
+          description: Expectation Failed
+          headers:
+            Content-Type:
+              schema:
+                type: string
+                example: text/plain
+          content:
+            text/plain:
+              schema:
+                type: string
+              example: ''
+        '503':
+          description: Service Unavailable
+          headers:
+            Content-Type:
+              schema:
+                type: string
+                example: text/plain
+          content:
+            text/plain:
+              schema:
+                type: string
+              example: ''
+  '/api/createquotation/{version}':
+    post:
+      tags:
+        - createquotation
+      summary: 'https://api-shop-test.hafele.com/api/createquotation/:version'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                Header:
+                  CustomerNumber: '8370378'
+                  DeliveryAddrCity: Nagold
+                  DeliveryAddrCustomerNumber: '8370378'
+                  DeliveryAddrHouseNo: '1'
+                  DeliveryAddrHouseNoAdd: ''
+                  DeliveryAddrName1: Häfele GmbH
+                  DeliveryAddrName2: eCom 573
+                  DeliveryAddrState: BW
+                  DeliveryAddrStreet: Adolf-Häfele-Str
+                  DeliveryAddrTyp: E
+                  DeliveryAddrZip: '72202'
+                  DeliveryWeek: '201733'
+                  DeliveryTyp: X
+                  LfdatH: ''
+                  Lifsp: ''
+                  CustomerQuotationNumber: TestBestellungReferenz
+                  QuotationDate: '2016-09-21'
+                  QuotationNumber: ''
+                  PackComission: ''
+                  PartnerNumber: ''
+                  PickUpByCustomer: ''
+                  SalesOrganization: DE01
+                  Spart: '01'
+                  Vkbur: ''
+                  Vtweg: '01'
+                Items:
+                  - ArticleNumber: '34242600'
+                    Commission: TEST
+                    DeliverPosition: '1'
+                    DeliveryDate: '2017-08-18'
+                    DeliveryYearWeek: '201733'
+                    QuantityUnitIso: PCE
+                    RequestedQuantity: '100'
+                    ShopPosNumber: '123'
+                PriceInformation:
+                  - PricingCondition: ZPM
+                    Stunr: 500
+                    QuantityPrice: 1.25
+                    CurrencyMnemonic: EUR
+                    ShopPosNumber: '123'
+                    PriceQuantityUnit: 1
+                Language: DE
+                Simulate: X
+                Source: API
+                TextMessages:
+                  - InfoText: ''
+                    InfoTextFormat: ''
+                    InfoTextId: ''
+                    ShopPosNumber: ''
+      security: []
+      parameters:
+        - name: Authorization
+          in: header
+          schema:
+            type: string
+          description: token used for user authentication
+          example: '{{authorizationKey}}'
+        - name: getDefinition
+          in: header
+          schema:
+            type: string
+          description: 'this flag determines the exact service-definition in the sap-backend<br>(valid values are ''1'' for import-parameters, ''2'' for export-parameters and ''3'' for both)'
+          example: <string>
+        - name: Content-Type
+          in: header
+          schema:
+            type: string
+          example: application/json
+        - name: x-api-key
+          in: header
+          schema:
+            type: string
+          example: '{{aws-api-key}}'
+        - name: version
+          in: path
+          schema:
+            type: integer
+          required: true
+          example: 1
+      responses:
+        '200':
+          description: OK
+          headers:
+            Content-Type:
+              schema:
+                type: string
+                example: text/plain
+          content:
+            text/plain:
+              schema:
+                type: string
+              example: ''
+        '401':
+          description: Unauthorized
+          headers:
+            Content-Type:
+              schema:
+                type: string
+                example: text/plain
+          content:
+            text/plain:
+              schema:
+                type: string
+              example: ''
+        '417':
+          description: Expectation Failed
+          headers:
+            Content-Type:
+              schema:
+                type: string
+                example: text/plain
+          content:
+            text/plain:
+              schema:
+                type: string
+              example: ''
+        '503':
+          description: Service Unavailable
+          headers:
+            Content-Type:
+              schema:
+                type: string
+                example: text/plain
+          content:
+            text/plain:
+              schema:
+                type: string
+              example: ''
+  '/quotation/{version}':
+    put:
+      tags:
+        - changequotation
+      summary: 'https://api-shop-test.hafele.com/api/quotation/:version'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                Header:
+                  CustomerNumber: '8370378'
+                  QuotationNumber: '0063999460'
+                  SalesOrganization: DE01
+                  Spart: '01'
+                  Vkbur: ''
+                  Vtweg: '01'
+                Items:
+                  - ArticleNumber: '55122734'
+                    Commission: Change -ZPL-
+                    DeliverPosition: ''
+                    DeliveryDate: '20200820'
+                    DeliveryYearWeek: '202033'
+                    QuantityUnitIso: PCE
+                    RequestedQuantity: '3'
+                    ShopPosNumber: '110'
+                    ErpPosNumber: '100'
+                  - ArticleNumber: '55122738'
+                    Commission: Change +ZPL+
+                    DeliverPosition: ''
+                    DeliveryDate: '20200820'
+                    DeliveryYearWeek: '202033'
+                    QuantityUnitIso: PCE
+                    RequestedQuantity: '3'
+                    ShopPosNumber: '112'
+                    ErpPosNumber: '200'
+                PriceInformation:
+                  - ErpPosNumber: 700
+                    PricingCondition: ZPM
+                    Stunr: 500
+                    QuantityPrice: 1.23
+                    CurrencyMnemonic: EUR
+                    ShopPosNumber: '145'
+                    PriceQuantityUnit: 100
+                Language: DE
+                Simulate: X
+                Source: API
+                TextMessages:
+                  - InfoText: ''
+                    InfoTextFormat: ''
+                    InfoTextId: ''
+                    ShopPosNumber: ''
+      security: []
+      parameters:
+        - name: Authorization
+          in: header
+          schema:
+            type: string
+          description: token used for user authentication
+          example: '{{authorizationKey}}'
+        - name: getDefinition
+          in: header
+          schema:
+            type: string
+          description: 'this flag determines the exact service-definition in the sap-backend<br>(valid values are ''1'' for import-parameters, ''2'' for export-parameters and ''3'' for both)'
+          example: <string>
+        - name: Content-Type
+          in: header
+          schema:
+            type: string
+          example: application/json
+        - name: x-api-key
+          in: header
+          schema:
+            type: string
+          example: '{{aws-api-key}}'
+        - name: version
+          in: path
+          schema:
+            type: integer
+          required: true
+          example: 1
+      responses:
+        '200':
+          description: OK
+          headers:
+            Content-Type:
+              schema:
+                type: string
+                example: text/plain
+          content:
+            text/plain:
+              schema:
+                type: string
+              example: ''
+        '401':
+          description: Unauthorized
+          headers:
+            Content-Type:
+              schema:
+                type: string
+                example: text/plain
+          content:
+            text/plain:
+              schema:
+                type: string
+              example: ''
+        '417':
+          description: Expectation Failed
+          headers:
+            Content-Type:
+              schema:
+                type: string
+                example: text/plain
+          content:
+            text/plain:
+              schema:
+                type: string
+              example: ''
+        '503':
+          description: Service Unavailable
+          headers:
+            Content-Type:
+              schema:
+                type: string
+                example: text/plain
+          content:
+            text/plain:
+              schema:
+                type: string
+              example: ''
+  '/getpdfdocument/{version}':
+    get:
+      tags:
+        - getpdfdocument
+      summary: 'https://api-shop-test.hafele.com/api/getpdfdocument/:version?documentId={{documentId}}'
+      security: []
+      parameters:
+        - name: Authorization
+          in: header
+          schema:
+            type: string
+          description: token used for user authentication
+          example: '{{authorizationKey}}'
+        - name: getDefinition
+          in: header
+          schema:
+            type: integer
+          description: 'this flag determines the exact service-definition in the sap-backend<br>(valid values are ''1'' for import-parameters, ''2'' for export-parameters and ''3'' for both)'
+          example: 2
+        - name: x-api-key
+          in: header
+          schema:
+            type: string
+          example: '{{aws-api-key}}'
+        - name: Accept
+          in: header
+          schema:
+            type: string
+          example: application/json
+        - name: documentId
+          in: query
+          schema:
+            type: string
+          example: xxxxxxxxxx
+        - name: version
+          in: path
+          schema:
+            type: integer
+          required: true
+          example: 1
+      responses:
+        '200':
+          description: OK
+          headers:
+            Content-Type:
+              schema:
+                type: string
+                example: text/plain
+          content:
+            text/plain:
+              schema:
+                type: string
+              example: ''
+        '401':
+          description: Unauthorized
+          headers:
+            Content-Type:
+              schema:
+                type: string
+                example: text/plain
+          content:
+            text/plain:
+              schema:
+                type: string
+              example: ''
+        '503':
+          description: Service Unavailable
+          headers:
+            Content-Type:
+              schema:
+                type: string
+                example: text/plain
+          content:
+            text/plain:
+              schema:
+                type: string
+              example: ''
